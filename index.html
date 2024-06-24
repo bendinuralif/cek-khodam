@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cek Khodam Anda</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url(https://static.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p2/01/2024/06/21/white-bengal-tiger-nature_23-2151528361-3261950069.jpeg) no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.464);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        .loading {
+            display: none;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #cd1a1a;
+        }
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #cd1a1a;
+            animation: spin 1s ease infinite;
+            margin: 0 auto 10px auto;
+        }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e2e2e2;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: none;
+        }
+        .result h2 {
+            margin-top: 0;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #cfcdcd;
+        }
+        @media screen and (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 20px;
+                width: 100%;
+            }
+            .header, .submit-btn {
+                padding: 10px;
+                font-size: 14px;
+            }
+            .form-group input {
+                padding: 8px;
+            }
+            .result, .loading {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Cek Khodam Anda</h1>
+        </div>
+        <form id="cekKhodamForm">
+            <div class="form-group">
+                <label for="nama">Nama:</label>
+                <input type="text" id="nama" name="nama" required>
+            </div>
+            <div class="form-group">
+                <label for="tanggalLahir">Tanggal Lahir:</label>
+                <input type="date" id="tanggalLahir" name="tanggalLahir" required>
+            </div>
+            <button type="submit" class="submit-btn">Cek Khodam</button>
+        </form>
+        <div id="loading" class="loading">
+            <div class="loading-spinner"></div>
+            Memeriksa khodam Anda...
+        </div>
+        <div id="result" class="result">
+            <h2>Hasil Khodam Anda:</h2>
+            <p id="khodamResult"></p>
+        </div>
+    </div>
+    <div class="footer">
+        &copy; 2024 Bendi.nr
+    </div>
+    <script>
+        const khodamList = [
+            "Harimau Putih",
+            "Burung Merak",
+            "Kuda Laut Emas",
+            "Naga Api",
+            "Serigala Hitam",
+            "Elang Biru",
+            "Ular Sanca Hijau",
+            "Kelinci Perak",
+            "Macan Dahan",
+            "Ikan Duyung",
+            "Kijang Emas",
+            "Tupai Hitam",
+            "Kelelawar Emas",
+            "Burung Hantu Putih",
+            "Rusa Merah",
+            "Harimau Emas",
+            "Gajah Putih",
+            "Kura-Kura Hijau",
+            "Naga Laut Perak",
+            "Singa Biru"
+        ];
+
+        document.getElementById('cekKhodamForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('result').style.display = 'none';
+
+            setTimeout(function() {
+                const nama = document.getElementById('nama').value;
+                const tanggalLahir = document.getElementById('tanggalLahir').value;
+                const randomIndex = Math.floor(Math.random() * khodamList.length);
+                const khodam = khodamList[randomIndex];
+
+                document.getElementById('khodamResult').innerText = `${nama}, khodam Anda adalah ${khodam}.`;
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('result').style.display = 'block';
+            }, 2000); // Simulate a 2 second loading time
+        });
+    </script>
+</body>
+</html>
